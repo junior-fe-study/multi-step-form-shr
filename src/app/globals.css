@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -12,6 +10,28 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@theme {
+  --color-*: initial;
+  --color-bg: rgba(239, 245, 255, 1);
+  --color-border--color: rgba(214, 217, 230, 1);
+  --color-denim: rgba(2, 41, 89, 1);
+  --color-grey: rgba(150, 153, 170, 1);
+  --color-light-blue: rgba(171, 188, 255, 1);
+  --color-light-grey: rgba(214, 217, 230, 1);
+  --color-orange: rgba(255, 175, 126, 1);
+  --color-pink: rgba(249, 129, 142, 1);
+  --color-purple: rgba(72, 62, 255, 1);
+  --color-red-errors: rgba(238, 55, 74, 1);
+  --color-sky-blue: rgba(190, 226, 253, 1);
+  --color-very-light-grey: rgba(248, 249, 255, 1);
+  --color-white: rgba(255, 255, 255, 1);
+
+  --font-heading: 32px;
+  --font-body-l: 16px;
+  --font-body-m: 14px;
+  --font-body-s: 12px;
 }
 
 body {
