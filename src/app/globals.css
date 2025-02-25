@@ -12,30 +12,59 @@
   }
 }
 
+@layer base {
+  button {
+    cursor: pointer;
+  }
+
+  input[type='checkbox'] {
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
 @theme {
   --color-*: initial;
-  --color-bg: rgba(239, 245, 255, 1);
-  --color-border--color: rgba(214, 217, 230, 1);
-  --color-denim: rgba(2, 41, 89, 1);
-  --color-grey: rgba(150, 153, 170, 1);
-  --color-light-blue: rgba(171, 188, 255, 1);
-  --color-light-grey: rgba(214, 217, 230, 1);
-  --color-orange: rgba(255, 175, 126, 1);
-  --color-pink: rgba(249, 129, 142, 1);
-  --color-purple: rgba(72, 62, 255, 1);
-  --color-red-errors: rgba(238, 55, 74, 1);
-  --color-sky-blue: rgba(190, 226, 253, 1);
-  --color-very-light-grey: rgba(248, 249, 255, 1);
-  --color-white: rgba(255, 255, 255, 1);
+  --color-bg: #eef5ff;
+  --color-border-color: #d6d9e6;
+  --color-denim: #022959;
+  --color-grey: #9699aa;
+  --color-light-blue: #abbcf5;
+  --color-light-grey: #f8f9ff;
+  --color-orange: #ffaf7e;
+  --color-pink: #f9818e;
+  --color-purple: #483eff;
+  --color-red-errors: #ee374a;
+  --color-sky-blue: #b4e2fd;
+  --color-very-light-grey: #f8f9ff;
+  --color-white: #ffffff;
+}
 
-  --font-heading: 32px;
-  --font-body-l: 16px;
-  --font-body-m: 14px;
-  --font-body-s: 12px;
+@layer utilities {
+  .font-heading {
+    font-size: 32px;
+  }
+
+  .font-body-xl {
+    font-size: 20px;
+  }
+
+  .font-body-l {
+    font-size: 16px;
+  }
+
+  .font-body-m {
+    font-size: 14px;
+  }
+
+  .font-body-s {
+    font-size: 12px;
+  }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-ubuntu);
+  font-size: 14px;
 }
