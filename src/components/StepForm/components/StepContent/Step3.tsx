@@ -16,16 +16,12 @@ export const ADD_ONS_DESCRIPTION_MAP: Record<AddOnName, string> = {
 function Step3() {
   const { setValue, watch } = useFormContext<StepFormSchemaType>();
 
-  const {
-    data: { addOns, base: basePlans },
-  } = usePlanSuspenseQuery();
+  const { data } = usePlanSuspenseQuery();
 
-  const addons = watch('addons');
-  const planPeriod = watch('planPeriod');
-  const currentPlan = watch('plan');
+  const [plan, planPeriod, addons] = watch(['plan', 'planPeriod', 'addons']);
 
   const yearlyFreeMonths =
-    basePlans.find(plan => plan.name === currentPlan)?.yearlyFreeMonths || 0;
+    data.base.find(_plan => _plan.name === plan)?.yearlyFreeMonths || 0;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, id } = e.target;
@@ -40,7 +36,7 @@ function Step3() {
 
   return (
     <div className="flex flex-col gap-[16px]">
-      {addOns.map(addon => {
+      {data.addOns.map(addon => {
         const { name, price } = addon;
         const isChecked = addons?.includes(name);
         const priceText = generatePriceText(

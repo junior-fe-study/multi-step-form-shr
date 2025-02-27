@@ -16,11 +16,10 @@ interface PlanCardProps {
 function PlanCard({ data }: PlanCardProps) {
   const { watch, setValue } = useFormContext<StepFormSchemaType>();
 
-  const planPeriod = watch('planPeriod');
-  const currentPlan = watch('plan');
+  const [plan, planPeriod] = watch(['plan', 'planPeriod']);
 
   const { name, price, icon, yearlyFreeMonths } = data;
-  const isSelected = currentPlan === data.name;
+  const isSelected = plan === data.name;
 
   const periodLabel = PERIOD_LABEL_MAP[planPeriod];
   const priceText =

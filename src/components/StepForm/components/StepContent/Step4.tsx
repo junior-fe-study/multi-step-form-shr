@@ -14,9 +14,7 @@ function Step4() {
 
   const { data } = usePlanSuspenseQuery();
 
-  const plan = watch('plan');
-  const planPeriod = watch('planPeriod');
-  const addons = watch('addons');
+  const [plan, planPeriod, addons] = watch(['plan', 'planPeriod', 'addons']);
 
   const selectedPlan = data.base.find(base => base.name === plan);
   const selectedAddons = data.addOns.filter(addon =>
@@ -61,25 +59,28 @@ function Step4() {
           </p>
         </div>
 
-        <div className="w-full h-[1px] bg-border-color mt-[24px] mb-[16px]" />
+        {!!selectedAddons.length && (
+          <>
+            <div className="w-full h-[1px] bg-border-color mt-[24px] mb-[16px]" />
+            <div className="flex flex-col gap-[16px]">
+              {selectedAddons.map(addon => {
+                const { name, price } = addon;
+                const addonPrice = generatePriceText(
+                  price,
+                  selectedPlan?.yearlyFreeMonths || 0,
+                  planPeriod,
+                );
 
-        <div className="flex flex-col gap-[16px]">
-          {selectedAddons.map(addon => {
-            const { name, price } = addon;
-            const addonPrice = generatePriceText(
-              price,
-              selectedPlan?.yearlyFreeMonths || 0,
-              planPeriod,
-            );
-
-            return (
-              <div key={name} className="flex items-center justify-between">
-                <p className="text-grey">{name}</p>
-                <p className="text-denim">{`+${addonPrice}`}</p>
-              </div>
-            );
-          })}
-        </div>
+                return (
+                  <div key={name} className="flex items-center justify-between">
+                    <p className="text-grey">{name}</p>
+                    <p className="text-denim">{`+${addonPrice}`}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
       <div className="px-[24px] mt-[24px] flex items-center justify-between">
         <p className="text-grey">{`Total (per ${
