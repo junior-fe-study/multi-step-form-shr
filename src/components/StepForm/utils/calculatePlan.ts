@@ -20,16 +20,14 @@ export const generatePriceText = (
   const periodLabel = PERIOD_LABEL_MAP[planPeriod];
 
   return planPeriod === 'yearly'
-    ? `${calculateYearlyPrice(price, yearlyFreeMonths)}/${periodLabel}`
-    : `${price}/${periodLabel}`;
+    ? `$${calculateYearlyPrice(price, yearlyFreeMonths)}/${periodLabel}`
+    : `$${price}/${periodLabel}`;
 };
 
 export const calculateTotalPrice = (
   basePlanPrice: number,
   addOnsPrices: number[],
 ) => {
-  console.log('basePlanPrice', basePlanPrice);
-  console.log('addOnsPrices', addOnsPrices);
   return addOnsPrices.reduce(
     (acc: number, addonPrice: number) => acc + addonPrice,
     basePlanPrice,

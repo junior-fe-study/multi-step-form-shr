@@ -23,8 +23,8 @@ function Step2() {
   const planPeriod = watch('planPeriod');
 
   return (
-    <div className="flex flex-col gap-[32px]">
-      <div className="flex gap-[18px]">
+    <div className="flex flex-col gap-[24px] sm:gap-[32px]">
+      <div className="flex flex-col gap-[12px] sm:flex-row sm:gap-[18px]">
         {plans.base.map(plan => {
           return (
             <PlanCard
@@ -34,7 +34,7 @@ function Step2() {
           );
         })}
       </div>
-      <div className="flex gap-[24px] h-[48px] rounded-[8px] bg-very-light-grey items-center justify-center">
+      <div className="flex h-[48px] items-center justify-center gap-[24px] rounded-[8px] bg-very-light-grey">
         {PLAN_PERIOD.map(type => {
           const isSelected = planPeriod === type;
           const periodLabel = uppercaseAtIndex(type, 0);

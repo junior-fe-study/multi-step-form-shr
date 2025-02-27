@@ -10,10 +10,10 @@ function InputWrapper({
   error?: string;
 }) {
   return (
-    <div className="flex flex-col gap-[8px]">
-      <div className="flex justify-between">
-        <label className="text-denim font-body-m">{label}</label>
-        {error && <p className="text-red-errors font-bold">{error}</p>}
+    <div className="flex flex-col gap-[3px] sm:gap-[8px]">
+      <div className="flex justify-between font-body-s sm:font-body-m">
+        <label className="text-denim">{label}</label>
+        {error && <p className="font-bold text-red-errors">{error}</p>}
       </div>
       {children}
     </div>

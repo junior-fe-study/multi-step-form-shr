@@ -2,7 +2,7 @@ import StepForm from '@/components/StepForm/StepForm';
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center h-screen bg-bg">
+    <div className="flex h-screen w-full items-center justify-center bg-bg">
       <StepForm />
     </div>
   );

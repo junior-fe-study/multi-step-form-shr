@@ -4,6 +4,7 @@ import { BasePlan } from '@/api/plans/plan.model';
 import { calculateYearlyPrice } from '@/components/StepForm/utils/calculatePlan';
 import { PERIOD_LABEL_MAP } from '@/components/StepForm/constants/steps';
 import { StepFormSchemaType } from '@/components/StepForm/hooks/useStepForm';
+import { uppercaseAtIndex } from '@/utils/stringUtils';
 
 interface PlanCardData extends BasePlan {
   icon: React.ReactNode;
@@ -24,8 +25,8 @@ function PlanCard({ data }: PlanCardProps) {
   const periodLabel = PERIOD_LABEL_MAP[planPeriod];
   const priceText =
     planPeriod === 'yearly'
-      ? `${calculateYearlyPrice(price, yearlyFreeMonths)}/${periodLabel}`
-      : `${price}/${periodLabel}`;
+      ? `$${calculateYearlyPrice(price, yearlyFreeMonths)}/${periodLabel}`
+      : `$${price}/${periodLabel}`;
 
   const handleClick = () => {
     setValue('plan', data.name, { shouldTouch: true });
@@ -34,16 +35,18 @@ function PlanCard({ data }: PlanCardProps) {
   return (
     <div
       className={cn(
-        'rounded-[8px] flex flex-col border-1 py-[20px] px-[16px] w-[138px] gap-[40px] cursor-pointer tablet:min-w-[150px]',
+        'flex w-full cursor-pointer gap-[14px] rounded-[8px] border-1 px-[16px] pt-[14px] pb-[18px] sm:min-w-[150px] sm:flex-col sm:gap-[40px] sm:py-[20px]',
         isSelected
           ? 'border-purple bg-light-grey'
-          : 'border-border-color bg-white ',
+          : 'border-border-color bg-white',
       )}
       onClick={handleClick}
     >
       {icon}
       <div className="flex flex-col gap-[7px]">
-        <p className="font-medium font-body-l text-denim">{name}</p>
+        <p className="font-body-l font-medium text-denim">
+          {uppercaseAtIndex(name, 0)}
+        </p>
         <p className="text-grey">{priceText}</p>
         {planPeriod === 'yearly' && (
           <p className="font-body-s text-denim">

@@ -34,7 +34,7 @@ function Step1() {
   } = useFormContext<StepFormSchemaType>();
 
   return (
-    <>
+    <div className="flex flex-col gap-[16px] sm:gap-[24px]">
       {Object.entries(STEP_1_FIELDS).map(([key, field]) => (
         <InputWrapper
           key={key}
@@ -48,7 +48,7 @@ function Step1() {
           />
         </InputWrapper>
       ))}
-    </>
+    </div>
   );
 }
 

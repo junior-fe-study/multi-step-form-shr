@@ -6,6 +6,7 @@ import { AddOnName } from '@/api/plans/plan.model';
 import { StepFormSchemaType } from '../../hooks/useStepForm';
 import { usePlanSuspenseQuery } from '@/api/plans/plans.query';
 import { generatePriceText } from '../../utils/calculatePlan';
+import { uppercaseAtIndex } from '@/utils/stringUtils';
 
 export const ADD_ONS_DESCRIPTION_MAP: Record<AddOnName, string> = {
   'online service': 'Access to multiplayer games',
@@ -35,7 +36,7 @@ function Step3() {
   };
 
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div className="flex flex-col gap-[12px] sm:gap-[16px]">
       {data.addOns.map(addon => {
         const { name, price } = addon;
         const isChecked = addons?.includes(name);
@@ -50,18 +51,24 @@ function Step3() {
             key={addon.name}
             id={addon.name}
             className={cn(
-              'gap-[24px] border-border-color border px-[24px] py-[18px] rounded-[8px] p-[18px] w-full',
+              'w-full gap-[16px] rounded-[8px] border border-border-color px-[16px] py-[12px] sm:gap-[24px] sm:px-[24px] sm:py-[18px]',
               isChecked && 'border-purple bg-light-grey',
             )}
             checked={isChecked}
             onChange={handleChange}
           >
-            <div className="flex items-center justify-between flex-1">
-              <div className="flex flex-col gap-[7px] flex-1">
-                <h3 className="font-body-l text-denim">{name}</h3>
-                <p className="text-grey">{ADD_ONS_DESCRIPTION_MAP[name]}</p>
+            <div className="flex flex-1 items-center justify-between">
+              <div className="flex flex-1 flex-col gap-[3px] sm:gap-[7px]">
+                <h3 className="font-body-m leading-[16px] text-denim sm:font-body-l">
+                  {uppercaseAtIndex(name, 0)}
+                </h3>
+                <p className="font-body-s leading-[20px] text-grey sm:font-body-m">
+                  {ADD_ONS_DESCRIPTION_MAP[name]}
+                </p>
               </div>
-              <span className="text-purple">+{priceText}</span>
+              <span className="font-body-s leading-[20px] text-purple sm:font-body-m">
+                +{priceText}
+              </span>
             </div>
           </Checkbox>
         );

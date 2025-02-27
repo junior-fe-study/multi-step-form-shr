@@ -16,7 +16,7 @@ function Checkbox({ children, className, ...checkboxProps }: CheckboxProps) {
       <div className="relative">
         <input
           type="checkbox"
-          className="absolute opacity-0 w-0 h-0"
+          className="absolute h-0 w-0 opacity-0"
           id={id}
           {...checkboxProps}
         />

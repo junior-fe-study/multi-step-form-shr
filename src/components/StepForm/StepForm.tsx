@@ -5,12 +5,13 @@ import useStepForm from './hooks/useStepForm';
 import { FormProvider } from 'react-hook-form';
 import Stepper from './components/Stepper';
 import StepHeader from './components/StepHeader';
-import { STEPS } from './constants/steps';
+import { START_STEP } from './constants/steps';
 import { Step1, Step2, Step3, Step4 } from './components/StepContent';
 import StepController from './components/StepController';
 
 function StepForm() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(START_STEP);
+
   const methods = useStepForm();
 
   const changeStep = (step: number) => {
@@ -34,15 +35,12 @@ function StepForm() {
 
   return (
     <FormProvider {...methods}>
-      <div className="flex gap-[100px] p-[16px] rounded-[15px] bg-white shadow-[0px_25px_40px_-20px_rgba(0,0,0,0.1)] h-[600px] w-[940px]">
+      <div className="mx-[16px] flex h-[fit-content] w-[fit-content] sm:relative sm:h-[600px] sm:w-full sm:max-w-[940px] sm:rounded-[15px] sm:bg-white sm:p-[16px] sm:pr-0 sm:shadow-[0px_25px_40px_-20px_rgba(0,0,0,0.1)]">
         <Stepper currentStep={step} />
 
-        <div className="flex flex-col w-[450px] justify-between pt-[40px] pb-[16px]">
-          <div className="flex flex-col gap-[35px] ">
-            <StepHeader
-              title={STEPS[step - 1].title}
-              description={STEPS[step - 1].description}
-            />
+        <div className="absolute top-[99px] left-0 mx-[16px] w-[calc(100%-32px)] rounded-[10px] bg-white px-[24px] py-[32px] sm:relative sm:top-0 sm:mx-auto sm:flex sm:h-full sm:w-full sm:max-w-[450px] sm:flex-1 sm:flex-col sm:justify-between sm:rounded-none sm:bg-transparent sm:px-[16px] sm:pt-[40px] sm:pb-[16px] sm:shadow-none">
+          <div className="flex flex-col gap-[22px] sm:gap-[35px]">
+            <StepHeader step={step} />
             {renderStep()}
           </div>
 

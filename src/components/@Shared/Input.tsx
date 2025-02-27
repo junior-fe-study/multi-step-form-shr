@@ -8,7 +8,7 @@ function Input({ isInvalid = false, ...props }: InputProps) {
   return (
     <input
       className={cn(
-        'w-full px-[16px] flex items-center rounded-[8px] h-[48px] border-1 border-border-color placeholder:text-grey text-denim font-medium font-body-l focus:border-purple',
+        'flex h-[40px] w-full items-center rounded-[4px] border-1 border-border-color px-[16px] font-body-l font-medium text-denim placeholder:text-grey focus:border-purple sm:h-[48px] sm:rounded-[8px]',
         isInvalid ? 'border-red-errors' : 'border-border-color',
       )}
       {...props}

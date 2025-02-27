@@ -40,26 +40,34 @@
   --color-white: #ffffff;
 }
 
-@layer utilities {
-  .font-heading {
-    font-size: 32px;
-  }
+@utility font-heading {
+  font-size: 32px;
+  line-height: 37px;
+}
 
-  .font-body-xl {
-    font-size: 20px;
-  }
+@utility font-heading-s {
+  font-size: 24px;
+  line-height: 28px;
+}
 
-  .font-body-l {
-    font-size: 16px;
-  }
+@utility font-body-xl {
+  font-size: 20px;
+  line-height: 20px;
+}
 
-  .font-body-m {
-    font-size: 14px;
-  }
+@utility font-body-l {
+  font-size: 16px;
+  line-height: 18px;
+}
 
-  .font-body-s {
-    font-size: 12px;
-  }
+@utility font-body-m {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@utility font-body-s {
+  font-size: 12px;
+  line-height: 14px;
 }
 
 body {

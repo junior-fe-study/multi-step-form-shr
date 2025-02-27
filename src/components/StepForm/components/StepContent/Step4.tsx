@@ -40,17 +40,18 @@ function Step4() {
 
   return (
     <div>
-      <div className="w-full rounded-[8px] bg-light-grey py-[16px] px-[24px]">
+      <div className="w-full rounded-[8px] bg-light-grey px-[16px] py-[16px] sm:px-[24px]">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-[7px]">
-            <p className="text-denim font-body-l font-medium">{`${
-              selectedPlan?.name
-            } (${uppercaseAtIndex(planPeriod, 0)})`}</p>
-            <button className="text-grey font-body-s underline w-fit">
+            <p className="font-body-l font-medium text-denim">{`${uppercaseAtIndex(
+              selectedPlan?.name || '',
+              0,
+            )} (${uppercaseAtIndex(planPeriod, 0)})`}</p>
+            <button className="w-fit font-body-s text-grey underline">
               change
             </button>
           </div>
-          <p className="text-denim font-body-l font-bold">
+          <p className="font-body-l font-bold text-denim">
             {generatePriceText(
               selectedPlan?.price || 0,
               selectedPlan?.yearlyFreeMonths || 0,
@@ -61,8 +62,8 @@ function Step4() {
 
         {!!selectedAddons.length && (
           <>
-            <div className="w-full h-[1px] bg-border-color mt-[24px] mb-[16px]" />
-            <div className="flex flex-col gap-[16px]">
+            <div className="my-[12px] h-[1px] w-full bg-border-color sm:mt-[24px] sm:mb-[16px]" />
+            <div className="flex flex-col gap-[12px] sm:gap-[16px]">
               {selectedAddons.map(addon => {
                 const { name, price } = addon;
                 const addonPrice = generatePriceText(
@@ -73,7 +74,7 @@ function Step4() {
 
                 return (
                   <div key={name} className="flex items-center justify-between">
-                    <p className="text-grey">{name}</p>
+                    <p className="text-grey">{uppercaseAtIndex(name, 0)}</p>
                     <p className="text-denim">{`+${addonPrice}`}</p>
                   </div>
                 );
@@ -82,11 +83,11 @@ function Step4() {
           </>
         )}
       </div>
-      <div className="px-[24px] mt-[24px] flex items-center justify-between">
+      <div className="mt-[24px] flex items-center justify-between px-[16px] sm:px-[24px]">
         <p className="text-grey">{`Total (per ${
           planPeriod === 'yearly' ? 'year' : 'month'
         })`}</p>
-        <p className="text-purple font-body-xl font-bold">
+        <p className="font-body-l leading-[20px] font-bold text-purple sm:font-body-xl">
           +${totalPrice}/{PERIOD_LABEL_MAP[planPeriod]}
         </p>
       </div>

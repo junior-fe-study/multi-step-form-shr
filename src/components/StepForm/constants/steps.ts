@@ -13,7 +13,7 @@ export const STEPS = [
   },
   {
     label: 'ADD-ONS',
-    title: 'Add-ons',
+    title: 'Pick add-ons',
     description: 'Add-ons help enhance your gaming experience.',
   },
   {
