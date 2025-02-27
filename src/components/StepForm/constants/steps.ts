@@ -1,3 +1,5 @@
+import { PlanPeriod } from '../hooks/useStepForm';
+
 export const STEPS = [
   {
     label: 'YOUR INFO',
@@ -20,6 +22,11 @@ export const STEPS = [
     description: 'Double-check everything looks OK before confirming.',
   },
 ];
+
+export const PERIOD_LABEL_MAP: Record<PlanPeriod, string> = {
+  monthly: 'mo',
+  yearly: 'yr',
+};
 
 export const MAX_STEP = STEPS.length;
 export const START_STEP = 1;

@@ -2,71 +2,57 @@ import { useFormContext } from 'react-hook-form';
 
 import { cn } from '@/utils/cn';
 import Checkbox from '@/components/@Shared/Checkbox';
-import type { PlanPeriod } from './Step2/Step2';
+import { AddOnName } from '@/api/plans/plan.model';
+import { StepFormSchemaType } from '../../hooks/useStepForm';
+import { usePlanSuspenseQuery } from '@/api/plans/plans.query';
+import { generatePriceText } from '../../utils/calculatePlan';
 
-interface Addon {
-  name: string;
-  description: string;
-  price: {
-    [key in PlanPeriod]: number;
-  };
-}
-export const ADD_ONS: Record<string, Addon> = {
-  onlineService: {
-    name: 'Online service',
-    description: 'Access to multiplayer games',
-    price: {
-      monthly: 1,
-      yearly: 10,
-    },
-  },
-  largerStorage: {
-    name: 'Larger storage',
-    description: 'Extra 1TB of cloud save',
-    price: {
-      monthly: 2,
-      yearly: 20,
-    },
-  },
-  customizableProfile: {
-    name: 'Customizable profile',
-    description: 'Custom theme on your profile',
-    price: {
-      monthly: 2,
-      yearly: 20,
-    },
-  },
+export const ADD_ONS_DESCRIPTION_MAP: Record<AddOnName, string> = {
+  'online service': 'Access to multiplayer games',
+  'larger storage': 'Extra 1TB of cloud save',
+  'customizable profile': 'Custom theme on your profile',
 };
 
 function Step3() {
-  const { setValue, watch } = useFormContext();
+  const { setValue, watch } = useFormContext<StepFormSchemaType>();
+
+  const {
+    data: { addOns, base: basePlans },
+  } = usePlanSuspenseQuery();
 
   const addons = watch('addons');
   const planPeriod = watch('planPeriod');
+  const currentPlan = watch('plan');
 
-  const periodUnit = planPeriod === 'yearly' ? 'yr' : 'mo';
+  const yearlyFreeMonths =
+    basePlans.find(plan => plan.name === currentPlan)?.yearlyFreeMonths || 0;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, id } = e.target;
-    if (checked) {
-      setValue('addons', [...addons, id]);
-    } else {
-      setValue(
-        'addons',
-        addons?.filter((name: string) => name !== id),
-      );
-    }
+
+    return checked
+      ? setValue('addons', [...addons, id as AddOnName])
+      : setValue(
+          'addons',
+          (addons || []).filter(name => name !== id),
+        );
   };
 
   return (
     <div className="flex flex-col gap-[16px]">
-      {Object.entries(ADD_ONS).map(([key, option]) => {
-        const isChecked = addons?.includes(key);
+      {addOns.map(addon => {
+        const { name, price } = addon;
+        const isChecked = addons?.includes(name);
+        const priceText = generatePriceText(
+          price,
+          yearlyFreeMonths,
+          planPeriod,
+        );
 
         return (
           <Checkbox
-            key={key}
-            id={key}
+            key={addon.name}
+            id={addon.name}
             className={cn(
               'gap-[24px] border-border-color border px-[24px] py-[18px] rounded-[8px] p-[18px] w-full',
               isChecked && 'border-purple bg-light-grey',
@@ -76,12 +62,10 @@ function Step3() {
           >
             <div className="flex items-center justify-between flex-1">
               <div className="flex flex-col gap-[7px] flex-1">
-                <h3 className="font-body-l text-denim">{option.name}</h3>
-                <p className="text-grey">{option.description}</p>
+                <h3 className="font-body-l text-denim">{name}</h3>
+                <p className="text-grey">{ADD_ONS_DESCRIPTION_MAP[name]}</p>
               </div>
-              <span className="text-purple">
-                +${option.price[planPeriod as PlanPeriod]}/{periodUnit}
-              </span>
+              <span className="text-purple">+{priceText}</span>
             </div>
           </Checkbox>
         );

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Ubuntu } from 'next/font/google';
 import './globals.css';
+import Providers from './providers';
 
 const ubuntu = Ubuntu({
   variable: '--font-ubuntu',
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ubuntu.variable} antialiased`}>{children}</body>
+      <body className={`${ubuntu.variable} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

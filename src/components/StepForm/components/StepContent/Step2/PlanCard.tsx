@@ -1,27 +1,36 @@
 import { cn } from '@/utils/cn';
 import { useFormContext } from 'react-hook-form';
+import { BasePlan } from '@/api/plans/plan.model';
+import { calculateYearlyPrice } from '@/components/StepForm/utils/calculatePlan';
+import { PERIOD_LABEL_MAP } from '@/components/StepForm/constants/steps';
+import { StepFormSchemaType } from '@/components/StepForm/hooks/useStepForm';
 
-interface PlanCardProps {
-  data: {
-    name: string;
-    price: {
-      yearly: number;
-      monthly: number;
-    };
-    icon: React.ReactNode;
-    yearlyFreeMonths?: number;
-  };
-  isSelected?: boolean;
-  handleClick?: () => void;
+interface PlanCardData extends BasePlan {
+  icon: React.ReactNode;
 }
 
-function PlanCard({ data, isSelected = false, handleClick }: PlanCardProps) {
-  const { watch } = useFormContext();
+interface PlanCardProps {
+  data: PlanCardData;
+}
+
+function PlanCard({ data }: PlanCardProps) {
+  const { watch, setValue } = useFormContext<StepFormSchemaType>();
 
   const planPeriod = watch('planPeriod');
+  const currentPlan = watch('plan');
 
   const { name, price, icon, yearlyFreeMonths } = data;
-  const typeText = planPeriod === 'yearly' ? 'yr' : 'mo';
+  const isSelected = currentPlan === data.name;
+
+  const periodLabel = PERIOD_LABEL_MAP[planPeriod];
+  const priceText =
+    planPeriod === 'yearly'
+      ? `${calculateYearlyPrice(price, yearlyFreeMonths)}/${periodLabel}`
+      : `${price}/${periodLabel}`;
+
+  const handleClick = () => {
+    setValue('plan', data.name);
+  };
 
   return (
     <div
@@ -36,9 +45,7 @@ function PlanCard({ data, isSelected = false, handleClick }: PlanCardProps) {
       {icon}
       <div className="flex flex-col gap-[7px]">
         <p className="font-medium font-body-l text-denim">{name}</p>
-        <p className="text-grey">
-          ${price[planPeriod as keyof typeof price]}/{typeText}
-        </p>
+        <p className="text-grey">{priceText}</p>
         {planPeriod === 'yearly' && (
           <p className="font-body-s text-denim">
             {yearlyFreeMonths} months free

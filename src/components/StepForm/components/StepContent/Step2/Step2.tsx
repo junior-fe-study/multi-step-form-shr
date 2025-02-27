@@ -5,70 +5,31 @@ import AdvancedIcon from '@/assets/advanced.svg';
 import ProIcon from '@/assets/pro.svg';
 import { cn } from '@/utils/cn';
 import PlanCard from './PlanCard';
+import { usePlanSuspenseQuery } from '@/api/plans/plans.query';
+import { BasePlanName } from '@/api/plans/plan.model';
+import { uppercaseAtIndex } from '@/utils/stringUtils';
+import { PLAN_PERIOD } from '@/components/StepForm/hooks/useStepForm';
 
-export type PlanPeriod = 'yearly' | 'monthly';
-
-export const PLAN_PERIOD: PlanPeriod[] = ['yearly', 'monthly'];
-
-interface Plan {
-  name: string;
-  price: {
-    [key in PlanPeriod]: number;
-  };
-  yearlyFreeMonths: number;
-  icon: React.ReactNode;
-}
-
-export const PLANS: Record<string, Plan> = {
-  arcade: {
-    name: 'Arcade',
-    price: {
-      yearly: 90,
-      monthly: 9,
-    },
-    yearlyFreeMonths: 2,
-    icon: <ArcadeIcon />,
-  },
-  advanced: {
-    name: 'Advanced',
-    price: {
-      yearly: 120,
-      monthly: 12,
-    },
-    yearlyFreeMonths: 2,
-    icon: <AdvancedIcon />,
-  },
-  pro: {
-    name: 'Pro',
-    price: {
-      yearly: 150,
-      monthly: 15,
-    },
-    yearlyFreeMonths: 2,
-    icon: <ProIcon />,
-  },
+export const PLANS_ICON_MAP: Record<BasePlanName, React.ReactNode> = {
+  arcade: <ArcadeIcon />,
+  advanced: <AdvancedIcon />,
+  pro: <ProIcon />,
 };
 
 function Step2() {
   const { setValue, watch } = useFormContext();
+  const { data: plans } = usePlanSuspenseQuery();
 
   const planPeriod = watch('planPeriod');
-  const currentPlan = watch('plan');
-
-  console.log(planPeriod);
 
   return (
     <div className="flex flex-col gap-[32px]">
       <div className="flex gap-[18px]">
-        {Object.entries(PLANS).map(([key, plan]) => {
+        {plans.base.map(plan => {
           return (
             <PlanCard
               key={plan.name}
-              data={{ ...plan }}
-              isSelected={key === currentPlan}
-              handleClick={() => {
-                setValue('plan', key);
-              }}
+              data={{ ...plan, icon: PLANS_ICON_MAP[plan.name] }}
             />
           );
         })}
@@ -76,6 +37,7 @@ function Step2() {
       <div className="flex gap-[24px] h-[48px] rounded-[8px] bg-very-light-grey items-center justify-center">
         {PLAN_PERIOD.map(type => {
           const isSelected = planPeriod === type;
+          const periodLabel = uppercaseAtIndex(type, 0);
 
           return (
             <button
@@ -86,7 +48,7 @@ function Step2() {
               )}
               onClick={() => setValue('planPeriod', type)}
             >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
+              {periodLabel}
             </button>
           );
         })}
