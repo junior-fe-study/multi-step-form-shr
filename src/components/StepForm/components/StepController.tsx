@@ -9,7 +9,10 @@ function StepController({
   step: number;
   changeStep: (step: number) => void;
 }) {
-  const { watch } = useFormContext<StepFormSchemaType>();
+  const {
+    formState: { errors },
+    watch,
+  } = useFormContext<StepFormSchemaType>();
 
   const handleConfirm = () => {
     console.log('confirm');
@@ -20,11 +23,18 @@ function StepController({
 
     switch (step) {
       case 1:
-        return !email || !name || !phone;
+        return (
+          !email ||
+          !name ||
+          !phone ||
+          !!errors.email ||
+          !!errors.name ||
+          !!errors.phone
+        );
       case 2:
-        return !plan || !planPeriod;
+        return !plan || !planPeriod || !!errors.plan;
       case 3:
-        return !addons;
+        return !addons || !!errors.addons;
       case 4:
         return false;
     }

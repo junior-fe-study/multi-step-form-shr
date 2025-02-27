@@ -29,7 +29,7 @@ function PlanCard({ data }: PlanCardProps) {
       : `${price}/${periodLabel}`;
 
   const handleClick = () => {
-    setValue('plan', data.name);
+    setValue('plan', data.name, { shouldTouch: true });
   };
 
   return (

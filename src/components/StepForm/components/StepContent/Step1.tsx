@@ -4,8 +4,10 @@ import Input from '@/components/@Shared/Input';
 import InputWrapper from '@/components/@Shared/InputWrapper';
 import { StepFormSchemaType } from '../../hooks/useStepForm';
 
+type Step1Field = keyof Pick<StepFormSchemaType, 'name' | 'email' | 'phone'>;
+
 const STEP_1_FIELDS: Record<
-  keyof Pick<StepFormSchemaType, 'name' | 'email' | 'phone'>,
+  Step1Field,
   {
     label: string;
     placeholder: string;
@@ -29,7 +31,7 @@ function Step1() {
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<StepFormSchemaType>();
 
   return (
     <>
@@ -37,9 +39,13 @@ function Step1() {
         <InputWrapper
           key={key}
           label={field.label}
-          error={errors[key]?.message as string}
+          error={errors[key as Step1Field]?.message as string}
         >
-          <Input placeholder={field.placeholder} {...register(key)} />
+          <Input
+            placeholder={field.placeholder}
+            {...register(key as Step1Field)}
+            isInvalid={!!errors[key as Step1Field]}
+          />
         </InputWrapper>
       ))}
     </>
