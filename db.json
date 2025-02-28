@@ -1,0 +1,41 @@
+{
+  "plans": {
+    "base": [
+      {
+        "id": 1,
+        "name": "arcade",
+        "price": 9,
+        "yearlyFreeMonths": 2
+      },
+      {
+        "id": 2,
+        "name": "advanced",
+        "price": 12,
+        "yearlyFreeMonths": 3
+      },
+      {
+        "id": 3,
+        "name": "pro",
+        "price": 15,
+        "yearlyFreeMonths": 4
+      }
+    ],
+    "addOns": [
+      {
+        "id": 1,
+        "name": "online service",
+        "price": 1
+      },
+      {
+        "id": 2,
+        "name": "larger storage",
+        "price": 2
+      },
+      {
+        "id": 3,
+        "name": "customizable profile",
+        "price": 2
+      }
+    ]
+  }
+}
